@@ -21,7 +21,7 @@ def getv(c):
             break
         
     return val
-        
+       
 
 def convert(item):
     if(str(item).find('#')!=-1):
@@ -74,7 +74,12 @@ def mov_d(s1, s2, memd):
        mem.append([s1,s2])
 
 
-def work(mem, file, y):
+def work(mem2, file, y):
+    global mem
+    if mem2 == "":
+        mem=[]
+    else:
+        mem=mem2
     with open(file, 'r', encoding="utf-8") as f:
         content=f.readlines()
     content = [x.strip().upper() for x in content]
@@ -206,6 +211,5 @@ def work(mem, file, y):
         x+=1
     return mem
         
-if __name__ == '__main__':
-    work()
+
     
