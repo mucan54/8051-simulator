@@ -11,3 +11,5 @@ y is the running cycles, how many times the code will run
 
 
 word class returns memory array, you can see all the memories wich is changed by assembly code.
+
+work([['P1',0]],'prog.asm',100)
