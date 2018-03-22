@@ -144,6 +144,7 @@ def work(mem2,file, y):
                 x=content.index(val[1]+':')
             
         if(item.find('SJMP')!=-1):
+            item=item.replace(" ", "")
             x=content.index(item[4:len(item)]+':')
 
         if(item.find('DJNZ')!=-1):
