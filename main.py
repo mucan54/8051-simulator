@@ -2,6 +2,9 @@ import re
 import sys  
 from io import BytesIO
 
+
+#work([['P1',0]],'/Users/mucan/Documents/hys.asm',200)
+
 def getv(c):
     val=[]
     if(c.find(':')!=-1):
@@ -47,13 +50,14 @@ def mov_v(s1, memd):
 
 def mov_check(s2, memd,a):
     s2=str(s2)
-    if(s2[len(s2)-1]=='H'):
-        s2=s2[0:len(s2)-1]
+ 
     if(s2.find('@')==-1):
         if(s2.find('#')!=-1 and a==2):
             return convert(s2)
         else:
             if a==1:
+                if(s2[len(s2)-1]=='H'):
+                    s2=s2[0:len(s2)-1]
                 return s2
             elif a==2:
                 return mov_v(s2,memd)
@@ -74,12 +78,12 @@ def mov_d(s1, s2, memd):
        mem.append([s1,s2])
 
 
-def work(mem2, file, y):
+def work(mem2,file, y):
     global mem
-    if mem2 == "":
-        mem=[]
-    else:
-        mem=mem2
+    mem=[]
+    memd=[]
+    if mem2!='':
+        mem.append(mem2)
     with open(file, 'r', encoding="utf-8") as f:
         content=f.readlines()
     content = [x.strip().upper() for x in content]
@@ -91,8 +95,9 @@ def work(mem2, file, y):
         if(x_crnt<x_wt):
             x_crnt=+1
         else:
-            return mem
+            print(mem)
             break
+        memd=[]
         item=content[x]
         memd=[a[0] for a in mem]
         if(item.find('MOV')!=-1 and item.find('MOVC')==-1):
@@ -100,7 +105,7 @@ def work(mem2, file, y):
                 val=getv(item)
                 val[0]=mov_check(val[0],memd,1)
                 val[1]=mov_check(val[1],memd,2)
-                mov_d(val[0],val[1],memd)
+                mov_d(val[0],convert(val[1]),memd)
             else:
                 mov_d('DPTR', item[item.find('#')+1:len(item)],memd)
         if(item.find('ADD')!=-1):
@@ -114,7 +119,7 @@ def work(mem2, file, y):
                 mov_d('C',1,memd)
         if(item.find('INC')!=-1):
             val=getv(item)
-            mov_d(val[0],mov_v(val[0],memd)+1,memd)
+            mov_d(val[0],int(mov_v(val[0],memd))+1,memd)
         if(item.find('DB')!=-1):       
             mov_d(item[0:item.find(':')],getv(item[10:len(content[0])]),memd)
 
@@ -143,9 +148,11 @@ def work(mem2, file, y):
 
         if(item.find('DJNZ')!=-1):
             val=getv(item)
-            if(mov_v(val[0],memd)-1>0):
-                mov_d(val[0],mov_v(val[0],memd)-1,memd)
+            if(int(mov_v(val[0],memd))-1>0):
+                mov_d(val[0],int(mov_v(val[0],memd))-1,memd)
                 x=content.index(val[1]+':')
+            else:
+                mov_d(val[0],int(mov_v(val[0],memd))-1,memd)
 
         if(item.find('SETB')!=-1):
             val=getv(item)
@@ -171,9 +178,9 @@ def work(mem2, file, y):
                 mov_d(val[0],'0',memd)
         
         if(item.find('CJNE')!=-1):
-            val[0]=mov_check(val[0],memd,1)
-            val[1]=mov_check(val[1],memd,2)
             val=getv(item)
+            val[0]=mov_check(val[0],memd,2)
+            val[1]=mov_check(val[1],memd,2)
             if(val[0]!=val[1]):
                 x=content.index(val[2]+':')
 
@@ -209,7 +216,7 @@ def work(mem2, file, y):
                 mov_d('A',a[b],memd)
 
         x+=1
-    return mem
+    print(mem)
         
 
     
