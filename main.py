@@ -93,7 +93,7 @@ def work(mem2,file, y):
     x_crnt=0
     while x < loop:
         if(x_crnt<x_wt):
-            x_crnt=+1
+            x_crnt=x_crnt+1
         else:
             print(mem)
             break
