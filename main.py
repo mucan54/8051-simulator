@@ -210,11 +210,53 @@ def work(mem2,file, y):
             mov_d(mov_check(val[0],memd,1),int(b1, 16),memd)
             mov_d(mov_check(val[1],memd,1),int(b2, 16),memd)
 
-        if(item.find('MOVC')!=-1):
+        if(item.find('MOVC')!=-1 && item.find('DPTR')!=-1):
             if(item.find('DPTR')!=-1 and item.find('@A')!=-1):
                 a=(mov_v(mov_v('DPTR',memd),memd))
                 b=mov_v('A',memd)
                 mov_d('A',a[b],memd)
+
+        if(item.find('MUL AB')!=-1):
+            s1=mov_check('A',memd,2)
+            s2=mov_check('B',memd,2)
+            mul=int(s1)*int(s2)
+            if(mul>255):
+                mov_d('OV',1,memd)
+            mul=hex(mul)
+            mul=mul[2:len(x)]
+            while(len(x)<4):
+                mul='0'+mul
+            s2='0x'+mul[0:2]
+            s1='0x'+mul[2:4]
+            
+            mov_d('C',0,memd)
+            mov_d('A',int(s2, 16),memd)
+            mov_d('B',int(s1, 16),memd)
+
+        if(item.find('SUBB')!=-1):
+            val=getv(item)
+            s1=mov_check(val[0],memd,2)
+            s2=mov_check(val[1],memd,2)
+            if(s1>=s2):
+                mov_d('A',s1-s2,memd)
+            else:
+                s3=bin(s2-s1)
+                x=len(s3)
+                while(x>1):
+                    if(s3[x]=='1'):
+                        y=y+'0'
+                    else:
+                        y=y+'1'
+
+                y='0b'+y
+            mov_d('C',1,memd)                
+            mov_d('A',int(y,2),memd)               
+
+        if(item.find('DIV AB')!=-1):
+            s1=mov_check('A',memd,2)
+            s2=mov_check('B',memd,2)
+            mov_d('A',int(s1/s2),memd)
+            mov_d('B',int(s1%s2),memd)
 
         x+=1
     print(mem)
