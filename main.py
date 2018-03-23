@@ -210,7 +210,7 @@ def work(mem2,file, y):
             mov_d(mov_check(val[0],memd,1),int(b1, 16),memd)
             mov_d(mov_check(val[1],memd,1),int(b2, 16),memd)
 
-        if(item.find('MOVC')!=-1 && item.find('DPTR')!=-1):
+        if(item.find('MOVC')!=-1 and item.find('DPTR')!=-1):
             if(item.find('DPTR')!=-1 and item.find('@A')!=-1):
                 a=(mov_v(mov_v('DPTR',memd),memd))
                 b=mov_v('A',memd)
