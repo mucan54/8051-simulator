@@ -190,7 +190,7 @@ def work(mem2,file, y):
             if(mov_d('A')==0):
                 x=content.index(val[1]+':')
 
-        if(item.find('JNZ')!=-1):
+        if(item.find('JNZ')!=-1 and item.find('DJNZ')==-1):  # JNZ and DJNZ could be conflict, so add a special handling
             val=getv(item)
             if(mov_v('A',memd)!=0):
                 x=content.index(val[1]+':')
