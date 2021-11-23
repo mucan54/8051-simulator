@@ -111,7 +111,22 @@ def mov_check(s2, memd, a):
         else:
             return convert(mov_v(s2, memd))
 
+# copy the source(s2) to the destination symbol(s1)    
+# memd only contains memeory symbols
+# we just want to copy the s2 to s1
+# this looks like
+#
+#   mem[s1] <---- s2, while s1 should be searched in memd
+#
 def mov_d(s1, s2, memd):
+    # search s1 in memd list
+    # for example, 9 should be convert to '09'
+    if isinstance(s1, str):
+        pass
+    else:
+        # convert int to string
+        s1 = '%02X' % s1   # convert int to hex string e.g. '09'
+ 
     if(s1 in memd):
        va=memd.index(s1)
        mem[va]=[mem[va][0],s2]
