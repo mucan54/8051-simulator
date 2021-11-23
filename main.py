@@ -211,11 +211,17 @@ def work(mem2,file, y):
 
         if(item.find('DJNZ')!=-1):
             val=getv(item)
-            if(int(mov_v(val[0],memd))-1>0):
-                mov_d(val[0],int(mov_v(val[0],memd))-1,memd)
+            next_value = int(mov_v(val[0],memd))-1
+            if (next_value<0):
+                next_value = next_value + 256
+            
+            if(next_value != 0):
+                mov_d(val[0], next_value, memd)
                 x=content.index(val[1]+':')
+                continue
             else:
-                mov_d(val[0],int(mov_v(val[0],memd))-1,memd)
+                mov_d(val[0], next_value, memd)
+                
 
         if(item.find('SETB')!=-1):
             val=getv(item)
