@@ -25,10 +25,11 @@ def getv(c):
         
     return val
        
-
+# this always return a int value
 def convert(item):
-    if(str(item).find('#')!=-1):
+    if(str(item).find('#')!=-1):  # remove the beginning #
         item=item[1:len(item)]
+    
     if(str(item).find('H')!=-1):
         item=item[0:len(item)-1]
         return int(item, 16)
@@ -37,9 +38,10 @@ def convert(item):
         return int(item, 2)
     if(str(item).find('D')!=-1):
         item=item[0:len(item)-1]
-        return item
+        return int(item)
     else:
-        return item
+        return int(item)
+
 
 def mov_v(s1, memd):
     if(s1 in memd):
