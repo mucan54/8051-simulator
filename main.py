@@ -139,7 +139,8 @@ def work(mem2,file, y):
     mem=[]
     memd=[]
     if mem2!='':
-        mem.append(mem2)
+        mem = mem + mem2  #mem.append(mem2)
+    
     with open(file, 'r', encoding="utf-8") as f:
         content=f.readlines()
     content = [x.strip().upper() for x in content]
