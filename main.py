@@ -148,14 +148,19 @@ def work(mem2,file, y):
     x=0
     x_wt=y
     x_crnt=0
+    
+    # please note that we reconsturct memd[] in executing every instruction!
     while x < loop:
-        if(x_crnt<x_wt):
-            x_crnt=x_crnt+1
-        else:
-            print(mem)
-            break
-        memd=[]
-        item=content[x]
+        # if(x_crnt<x_wt):
+        #     x_crnt=x_crnt+1
+        # else:
+        #     print(mem)
+        #     break
+        memd=[]              # memd reset here for each instruction line!
+        item=content[x]      # content holds all the instructions
+        
+        # memd is a copy of mem, but has only symbol names
+        # e.g. mem could be [['P1', 3], ['P2', 4]], then memd could be ['P1', 'P2']
         memd=[a[0] for a in mem]
         if(item.find('MOV')!=-1 and item.find('MOVC')==-1):
             if(item.find('DPTR')==-1):
