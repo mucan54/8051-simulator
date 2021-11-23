@@ -133,7 +133,8 @@ def mov_d(s1, s2, memd):
     else:
        mem.append([s1,s2])
 
-
+# mem2 is the initial memory set
+# it just copied to to mem when started
 def work(mem2,file, y):
     global mem
     mem=[]
