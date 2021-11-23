@@ -48,10 +48,25 @@ def convert(item):
         return int(item)
 
 
+# fetch a value from the memory
+# s1: the expression of the source(it could be a symbol such as 'B')
+# we first looked up in memd, if not defined,
+# we simply return 0, 
+# it the expression is defined, we simply return the value of the symbol
 def mov_v(s1, memd):
+    # search s1 in memd list
+    # for example, 9 should be convert to '09'
+    if isinstance(s1, str):
+        if s1.isdigit():  # only digit string, such as 123, 56 we need to convert to hex format
+            s1 = int(s1);
+            s1 = '%02X' % s1   # convert int to hex string e.g. '09'
+    else:
+        # convert int to string
+        s1 = '%02X' % s1   # convert int to hex string e.g. '09'
+        
     if(s1 in memd):
-        va=memd.index(s1)
-        return mem[va][1]
+        va=memd.index(s1)     # index(int) value of the symbol in memd
+        return mem[va][1]     # memd and mem are using the same index, so set the value
     else:
         return 0
 
