@@ -355,4 +355,4 @@ def work(mem2,file, y):
     print(mem)
         
 
-    
+work([['P1',3], ['P2', 4], ['SP', 7], ['R0', 8]], 'test1.asm', 20)    
