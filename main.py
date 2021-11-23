@@ -325,6 +325,28 @@ def work(mem2,file, y):
             s2=mov_check('B',memd,2)
             mov_d('A',int(s1/s2),memd)
             mov_d('B',int(s1%s2),memd)
+            
+        if(item.find('PUSH')!=-1):
+            val=getv(item)
+            # sp = sp + 1
+            sp = 'SP'
+            mov_d(sp, int(mov_v(sp, memd)) + 1, memd)
+            # *sp = val[0]
+            s1=mov_check('@SP' , memd, 1)
+            s2=mov_check(val[0], memd, 2)
+            op1_str = '%02X' % s1   # convert int to hex string
+            mov_d(op1_str,convert(s2), memd)           
+
+        if(item.find('POP')!=-1):
+            val=getv(item)
+            # val[0] = *sp
+            s2=mov_check('@SP' , memd, 2)
+            s1=mov_check(val[0], memd, 1)            
+            # op1_str = '%02X' % s1   # convert int to hex string
+            mov_d(s1,convert(s2), memd)             
+            # sp = sp - 1
+            sp = 'SP'
+            mov_d(sp, int(mov_v(sp, memd)) - 1, memd)
 
 
         x+=1  # move to the next instruction line
