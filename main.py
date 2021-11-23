@@ -265,7 +265,9 @@ def work(mem2,file, y):
             mov_d('A',int(s1/s2),memd)
             mov_d('B',int(s1%s2),memd)
 
-        x+=1
+
+        x+=1  # move to the next instruction line
+        
     print(mem)
         
 
