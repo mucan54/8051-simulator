@@ -5,6 +5,11 @@ from io import BytesIO
 
 #work([['P1',0]],'/Users/mucan/Documents/hys.asm',200)
 
+# get the instruction operands(parameters)
+# c: the instruction line 
+# val: the parameters, e.g. if we have
+# mov a, #4
+# then the val[0]='a', val[1]='#4'
 def getv(c):
     val=[]
     if(c.find(':')!=-1):
