@@ -177,7 +177,7 @@ def work(mem2,file, y):
             if(mov_v(val[0],memd)+val[1]<=255):
                 mov_d(val[0],mov_v(val[0],memd)+val[1],memd)
             else:
-                mov_d(val[0],255,memd)
+                mov_d(val[0], mov_v(val[0],memd) + val[1] - 256, memd)
                 mov_d('C',1,memd)
         if(item.find('INC')!=-1):
             val=getv(item)
