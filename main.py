@@ -144,7 +144,7 @@ def work(mem2,file, y):
     with open(file, 'r', encoding="utf-8") as f:
         content=f.readlines()
     content = [x.strip().upper() for x in content]
-    loop=len(content)
+    loop=len(content)   # how many instruction lines in this asm file
     x=0
     x_wt=y
     x_crnt=0
