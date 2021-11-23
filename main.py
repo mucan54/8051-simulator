@@ -69,28 +69,47 @@ def mov_v(s1, memd):
         return mem[va][1]     # memd and mem are using the same index, so set the value
     else:
         return 0
-
-def mov_check(s2, memd,a):
+    
+# a sample usage of this function call is like this:    
+#  val[0]=mov_check(val[0],memd,1)
+#  val[1]=mov_check(val[1],memd,2)
+# the last argument a could be either 1 or 2.
+# which means it is the first or second parameter
+# the s2 means the input source, such as "A" or "30H" or "B"
+# memd is the symbol list(memory data)
+# 1 is the first symbol, so it should be a string type
+# 2 means it is a value, so it should be an int number
+def mov_check(s2, memd, a):
     s2=str(s2)
  
-    if(s2.find('@')==-1):
-        if(s2.find('#')!=-1 and a==2):
+    if(s2.find('@')==-1):              # if this is not the "@Ri" like address
+        if(s2.find('#')!=-1 and a==2): # if it is the "#55H" like address(second argument)
             return convert(s2)
-        else:
+        else:                  
             if a==1:
-                if(s2[len(s2)-1]=='H'):
+                # if user write: 
+                # mov 20H, #24H
+                # mov 20,  #24H
+                # mov sfr, #24H
+                # here we got the '23H'
+                if(s2[len(s2)-1]=='H'):  # the last char is "H"
                     s2=s2[0:len(s2)-1]
+                    # todo: maybe, a user write: AH or 0AH
+                    # we need to always use the '0A' format
+                else:
+                    if s2.isdigit():      # all digit but no H surfix
+                        s2 = int(s2)
+                        s2 = '%02X' % s2   # convert int to hex string e.g. '09'
                 return s2
             elif a==2:
                 return mov_v(s2,memd)
-    else:
+    else:                      # this is "@Ri" like address
         s2=s2[1:len(s2)]
         s2=mov_v(s2, memd)
         if(a==1):
             return s2
         else:
             return convert(mov_v(s2, memd))
-    
 
 def mov_d(s1, s2, memd):
     if(s1 in memd):
