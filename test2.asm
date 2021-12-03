@@ -1,0 +1,3 @@
+
+        MOVC A,     @A+DPTR
+
