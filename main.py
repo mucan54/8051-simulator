@@ -53,7 +53,12 @@ def get_db_list(db_instruction):
     list_str = db_instruction.split(',')
     val = []
     for x in list_str:
-        val.append(convert(x))
+        x = x.strip()
+        if x[0] == "'" :
+            x = x[1:len(x)-1]  #remove the surounding quote of 'a', and ord() function get the ascii value
+            val.append(convert(ord(x)))
+        else:
+            val.append(convert(x))
     return val
 
 # this always return an int value
