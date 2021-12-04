@@ -43,6 +43,19 @@ def getv(c):
 
     return val
 
+
+# input string  "DB 2,3,4,5,'6', 34H"
+
+# output list [2, 3, 4, 5, 54, 52] all in decimal format
+def get_db_list(db_instruction):
+    index = db_instruction.find('DB')
+    db_instruction = db_instruction[index+2: len(db_instruction)]
+    list_str = db_instruction.split(',')
+    val = []
+    for x in list_str:
+        val.append(convert(x))
+    return val
+
 # this always return an int value
 # the input could be a string like "#89H", "#11101111B"
 # it will always convert them to an int value
@@ -205,7 +218,8 @@ def work(mem2,file, y):
         # handling such statement
         # TAB: DB 2,3,4,5,6
         if(item.find('DB')!=-1):
-            mov_d(item[0:item.find(':')],getv(item[10:len(content[0])]),memd)
+            # mov_d(item[0:item.find(':')],getv(item[10:len(content[0])]),memd)
+            mov_d(item[0:item.find(':')], get_db_list(item[item.find('DB') : len(item)]), memd)
 
         if(item.find('JZ')!=-1):
             val=getv(item)
@@ -383,4 +397,4 @@ def work(mem2,file, y):
     print(mem)
 
 
-work([['A', 4], ['DPTR', 'TAB'], ['TAB', [2,3,4,5,6,7]]], 'test2.asm', 20)
+work([['A', 4], ['DPTR', 'TAB']], 'test2.asm', 20)
