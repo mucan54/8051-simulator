@@ -181,6 +181,23 @@ def work(mem2,file, y):
     x_wt=y
     x_crnt=0
 
+    # make a first pass of the instructions, which should handle the labels and DB commands
+    while x < loop:
+        memd=[]              # memd reset here for each instruction line!
+        item=content[x]      # content holds all the instructions
+
+        # memd is a copy of mem, but has only symbol names
+        # e.g. mem could be [['P1', 3], ['P2', 4]], then memd could be ['P1', 'P2']
+        memd=[a[0] for a in mem]
+
+        # handling such statement
+        # TAB: DB 2,3,4,5,6
+        if(item.find('DB')!=-1):
+            # mov_d(item[0:item.find(':')],getv(item[10:len(content[0])]),memd)
+            mov_d(item[0:item.find(':')], get_db_list(item[item.find('DB') : len(item)]), memd)
+
+        x+=1  # move to the next instruction line
+    x=0
     # please note that we reconsturct memd[] in executing every instruction!
     while x < loop:
         # if(x_crnt<x_wt):
@@ -214,12 +231,6 @@ def work(mem2,file, y):
         if(item.find('INC')!=-1):
             val=getv(item)
             mov_d(val[0],int(mov_v(val[0],memd))+1,memd)
-
-        # handling such statement
-        # TAB: DB 2,3,4,5,6
-        if(item.find('DB')!=-1):
-            # mov_d(item[0:item.find(':')],getv(item[10:len(content[0])]),memd)
-            mov_d(item[0:item.find(':')], get_db_list(item[item.find('DB') : len(item)]), memd)
 
         if(item.find('JZ')!=-1):
             val=getv(item)
@@ -397,4 +408,4 @@ def work(mem2,file, y):
     print(mem)
 
 
-work([['A', 4], ['DPTR', 'TAB']], 'test2.asm', 20)
+work([['A', 4]], 'test2.asm', 20)

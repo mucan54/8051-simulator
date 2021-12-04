@@ -1,5 +1,6 @@
-TAB: DB 2,3,4,5,6,7
-
 MOV DPTR,#TAB
 MOV A, #2
 MOVC A, @A+DPTR
+
+
+TAB: DB 2,3,4,5,6,7
